@@ -1,14 +1,12 @@
-/*
- */
-
 #include <avr/io.h>
+#include "uart/uart.h"
 
-int main(void)
+int main (void)
 {
+    uart_init();
+    uart_println("UART init");
 
-    // Insert code
-
-    while(1)
+    while (1)
     ;
 
     return 0;
