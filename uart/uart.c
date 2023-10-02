@@ -1,5 +1,10 @@
 #include <avr/io.h>
+#include <stdio.h>
 #include "uart.h"
+
+int __uart_putchar (char, FILE *);
+
+FILE _my_stdout = FDEV_SETUP_STREAM(__uart_putchar, NULL, _FDEV_SETUP_WRITE);
 
 void uart_init (void)
 {
@@ -15,6 +20,9 @@ void uart_init (void)
     // 9600 baud rate
     UBRR0H = (uint8_t)0;
     UBRR0L = (uint8_t)207;
+
+    // for printf
+    stdout = &_my_stdout;
 }
 
 void uart_transmit (unsigned char data)
@@ -37,4 +45,11 @@ void uart_println (char *str)
 {
     uart_print(str);
     uart_print("\r\n");
+}
+
+int __uart_putchar (char ch, FILE *stream)
+{
+    uart_transmit(ch);
+
+    return 0;
 }

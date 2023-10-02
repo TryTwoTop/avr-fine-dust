@@ -1,10 +1,11 @@
 #include <avr/io.h>
+#include <stdio.h>
 #include "uart/uart.h"
 
 int main (void)
 {
     uart_init();
-    uart_println("UART init");
+    printf("UART init\r\n");
 
     while (1)
     ;
