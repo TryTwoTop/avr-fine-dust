@@ -36,5 +36,5 @@ void uart_print (char *str)
 void uart_println (char *str)
 {
     uart_print(str);
-    uart_transmit('\n');
+    uart_print("\r\n");
 }
