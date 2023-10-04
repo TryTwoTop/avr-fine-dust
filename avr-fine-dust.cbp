@@ -42,6 +42,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="com/uart/uart.h" />
+		<Unit filename="dev/pm2008m/pm2008m.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="dev/pm2008m/pm2008m.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
