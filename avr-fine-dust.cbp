@@ -34,6 +34,10 @@
 			<Add after="avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).hex" />
 			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).eep" />
 		</ExtraCommands>
+		<Unit filename="com/i2c/i2c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="com/i2c/i2c.h" />
 		<Unit filename="com/uart/uart.c">
 			<Option compilerVar="CC" />
 		</Unit>
