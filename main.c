@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "com/uart/uart.h"
 #include "dev/pm2008m/pm2008m.h"
+#include "dev/lcd-1602a/lcd-1602a.h"
 
 int main (void)
 {
@@ -13,11 +14,21 @@ int main (void)
 
     pm2008m_init();
     printf("PM2008M init\r\n");
+
+    lcd_init();
+    lcd_print_str("LCD-1602A init");
+    printf("LCD-1602A init\r\n");
     printf("\r\n");
+
+    _delay_ms(1000);
 
     while (1)
     {
         dust_data = pm2008m_read();
+
+        lcd_clear();
+        lcd_print_str("Fine dust: ");
+        lcd_print_int(dust_data.pm_10_grimm);
 
         printf("Sensor status: %d\r\n", dust_data.status);
         printf("measuring mode: %d\r\n", dust_data.measuring_mode);
