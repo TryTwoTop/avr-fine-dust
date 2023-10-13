@@ -4,6 +4,7 @@
 #include "com/uart/uart.h"
 #include "dev/pm2008m/pm2008m.h"
 #include "dev/lcd-1602a/lcd-1602a.h"
+#include "domain/gpio/service/gpio.h"
 
 int main (void)
 {
@@ -21,6 +22,15 @@ int main (void)
     printf("\r\n");
 
     _delay_ms(1000);
+
+    /* GPIO test */
+    gpio_init();
+
+    gpio_set_pin_mode(GPIOD, GPIO_PIN_2, GPIO_PIN_MODE_OUTPUT);
+
+    gpio_write_pin(GPIOD, GPIO_PIN_2, GPIO_PIN_SET);
+    _delay_ms(1000);
+    gpio_write_pin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
 
     while (1)
     {

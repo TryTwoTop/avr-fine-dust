@@ -50,6 +50,15 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="dev/pm2008m/pm2008m.h" />
+		<Unit filename="domain/gpio/repository/gpio_pin/pin.h" />
+		<Unit filename="domain/gpio/repository/gpio_port/port.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="domain/gpio/repository/gpio_port/port.h" />
+		<Unit filename="domain/gpio/service/gpio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="domain/gpio/service/gpio.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
