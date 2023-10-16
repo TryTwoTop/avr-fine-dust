@@ -1,4 +1,4 @@
-#include "gpio.h"
+#include "../service/gpio.h"
 
 void gpio_init (void)
 {
