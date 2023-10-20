@@ -23,5 +23,6 @@ void lcd_clear (void);
 void lcd_write_data (uint8_t);
 void lcd_print_str (char *);
 void lcd_print_int (int);
+void lcd_new_line (void);
 
 #endif // __LCD_1602A_H__

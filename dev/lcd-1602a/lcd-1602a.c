@@ -8,12 +8,15 @@
 #define CLEAR_DISPLAY               0x01
 #define SET_DISPLAY_NO_CURSOR       0x0c
 #define ENTRY_MODE_SET_RIGHT_SHIFT  0x06
+#define SET_DDRAM_ADDRESS           0x80
 
 /* Execute time (ms) */
 #define EXECUTION_TIME_TO_CLEAR_DISPLAY  2
 
 #define PORT_D_DATA_PIN_MASK    0x3f
 #define PORT_B_DATA_PIN_MASK    0xc0
+
+#define START_DISPLAY_SECOND_LINE_ADDRESS   0x40
 
 #define DIGITS_OF_INT           5
 
@@ -48,6 +51,13 @@ static void __lcd_write_instruction (uint8_t instruction)
     __load_data_or_instruction(instruction);
 
     __lcd_e_generate_impulse();
+}
+
+void lcd_new_line (void)
+{
+    uint8_t instruction = SET_DDRAM_ADDRESS | START_DISPLAY_SECOND_LINE_ADDRESS;
+
+    __lcd_write_instruction(instruction);
 }
 
 void lcd_init (void)
