@@ -23,15 +23,6 @@ int main (void)
 
     _delay_ms(1000);
 
-    /* GPIO test */
-    gpio_init();
-
-    gpio_set_pin_mode(GPIOD, GPIO_PIN_2, GPIO_PIN_MODE_OUTPUT);
-
-    gpio_write_pin(GPIOD, GPIO_PIN_2, GPIO_PIN_SET);
-    _delay_ms(1000);
-    gpio_write_pin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
-
     while (1)
     {
         dust_data = pm2008m_read();
