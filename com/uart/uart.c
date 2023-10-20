@@ -4,7 +4,12 @@
 
 int __uart_putchar (char, FILE *);
 
-FILE _my_stdout = FDEV_SETUP_STREAM(__uart_putchar, NULL, _FDEV_SETUP_WRITE);
+static FILE _my_stdout = FDEV_SETUP_STREAM(__uart_putchar, NULL, _FDEV_SETUP_WRITE);
+
+static void __printf_init (void)
+{
+    stdout = &_my_stdout;
+}
 
 void uart_init (void)
 {
@@ -22,7 +27,7 @@ void uart_init (void)
     UBRR0L = (uint8_t)207;
 
     // for printf
-    stdout = &_my_stdout;
+    __printf_init();
 }
 
 void uart_transmit (unsigned char data)
