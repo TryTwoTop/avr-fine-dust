@@ -6,6 +6,28 @@
 #include "dev/lcd-1602a/lcd-1602a.h"
 #include "domain/gpio/service/gpio.h"
 
+static void mcu_lcd_init (void)
+{
+    lcd_pin_t lcd_pin;
+
+    pin_init();
+
+    pin_set(&lcd_pin.rs, GPIOD, GPIO_PIN_3);
+    pin_set(&lcd_pin.rw, GPIOD, GPIO_PIN_4);
+    pin_set(&lcd_pin.e,  GPIOD, GPIO_PIN_5);
+
+    pin_set(&lcd_pin.db[0], GPIOD, GPIO_PIN_6);
+    pin_set(&lcd_pin.db[1], GPIOD, GPIO_PIN_7);
+    pin_set(&lcd_pin.db[2], GPIOB, GPIO_PIN_0);
+    pin_set(&lcd_pin.db[3], GPIOB, GPIO_PIN_1);
+    pin_set(&lcd_pin.db[4], GPIOB, GPIO_PIN_2);
+    pin_set(&lcd_pin.db[5], GPIOB, GPIO_PIN_3);
+    pin_set(&lcd_pin.db[6], GPIOB, GPIO_PIN_4);
+    pin_set(&lcd_pin.db[7], GPIOB, GPIO_PIN_5);
+
+    lcd_init(&lcd_pin);
+}
+
 int main (void)
 {
     pm2008m_data_t dust_data;
@@ -16,7 +38,7 @@ int main (void)
     pm2008m_init();
     printf("PM2008M init\r\n");
 
-    lcd_init();
+    mcu_lcd_init();
     lcd_print_str("LCD-1602A init");
     printf("LCD-1602A init\r\n");
     printf("\r\n");

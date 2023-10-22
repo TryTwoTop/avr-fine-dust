@@ -13,40 +13,41 @@
 /* Execute time (ms) */
 #define EXECUTION_TIME_TO_CLEAR_DISPLAY  2
 
-#define PORT_D_DATA_PIN_MASK    0x3f
-#define PORT_B_DATA_PIN_MASK    0xc0
-
 #define START_DISPLAY_SECOND_LINE_ADDRESS   0x40
 
-#define DIGITS_OF_INT           5
+#define DIGITS_OF_INT   5
 
 #define BINARY_NUM      2
 #define DECIMAL_NUM     10
 
+static lcd_pin_t _lcd_pin;
+
 static void __lcd_e_generate_impulse (void)
 {
     // PIN_E HIGH
-    PORTD |= (1 << PORTD5);
+    pin_write(&_lcd_pin.e, HIGH);
     _delay_ms(1);
 
     // PIN_E LOW
-    PORTD &= ~(1 << PORTD5);
+    pin_write(&_lcd_pin.e, LOW);
     _delay_ms(1);
 }
 
 static void __load_data_or_instruction (uint8_t data)
 {
-    PORTD = PORTD & PORT_D_DATA_PIN_MASK;
-    PORTD |= data << 6;
+    int i;
 
-    PORTB = PORTB & PORT_B_DATA_PIN_MASK;
-    PORTB |= data >> 2;
+    for (i = 0; i < LCD_HW_INTERFACE_DATA_LENGTH; i++)
+    {
+        uint8_t bit = 1 << i;
+        pin_write(&_lcd_pin.db[i], (data & bit) ? HIGH : LOW);
+    }
 }
 
 static void __lcd_write_instruction (uint8_t instruction)
 {
     // PIN_RS LOW
-    PORTD &= ~(1 << PORTD3);
+    pin_write(&_lcd_pin.rs, LOW);
 
     __load_data_or_instruction(instruction);
 
@@ -60,18 +61,32 @@ void lcd_new_line (void)
     __lcd_write_instruction(instruction);
 }
 
-void lcd_init (void)
+void lcd_init (lcd_pin_t *lcd_pin)
 {
+    int i;
+
     _delay_ms(5);
 
-    // init Control pin
-    DDRD |= (1 << DDD5) | (1 << DDD4) | (1 << DDD3);
+    pin_init();
 
-    // init Data pin
-    DDRD |= (1 << DDD7) | (1 << DDD6);
+    _lcd_pin = *lcd_pin;
 
-    DDRB |= (1 << DDB5) | (1 << DDB4) | (1 << DDB3) |
-            (1 << DDB2) | (1 << DDB1) | (1 << DDB0);
+    // LCD Control Pin mode init
+    pin_set_mode(&_lcd_pin.rs, OUTPUT);
+    pin_set_mode(&_lcd_pin.rw, OUTPUT);
+    pin_set_mode(&_lcd_pin.e, OUTPUT);
+
+    // LCD Control Pin level init
+    pin_write(&_lcd_pin.rs, LOW);
+    pin_write(&_lcd_pin.rw, LOW);
+    pin_write(&_lcd_pin.e, LOW);
+
+    // LCD Data Pin mode & level init
+    for (i = 0; i < LCD_HW_INTERFACE_DATA_LENGTH; i++)
+    {
+        pin_set_mode(&_lcd_pin.db[i], OUTPUT);
+        pin_write(&_lcd_pin.db[i], LOW);
+    }
 
     __lcd_write_instruction(FUNC_8BIT_2LINE_5M8DOTS);
 
@@ -91,7 +106,7 @@ void lcd_clear (void)
 void lcd_write_data (uint8_t data)
 {
     // PIN_RS HIGH
-    PORTD |= (1 << PORTD3);
+    pin_write(&_lcd_pin.rs, HIGH);
 
     __load_data_or_instruction(data);
 
