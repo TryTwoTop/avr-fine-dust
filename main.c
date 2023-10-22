@@ -28,8 +28,23 @@ int main (void)
         dust_data = pm2008m_read();
 
         lcd_clear();
-        lcd_print_str("Fine dust: ");
+        // LCD first line
+        lcd_print_str("Sensor dust: ");
         lcd_print_int(dust_data.pm_10_grimm);
+
+        // LCD second line
+        lcd_new_line();
+        lcd_print_str("API dust: ");
+
+        if (uart_is_received())
+        {
+            uint8_t api_pm10_value = uart_get_received_data();
+            lcd_print_int(api_pm10_value);
+        }
+        else
+        {
+            lcd_print_str("no");
+        }
 
         printf("Sensor status: %d\r\n", dust_data.status);
         printf("measuring mode: %d\r\n", dust_data.measuring_mode);
