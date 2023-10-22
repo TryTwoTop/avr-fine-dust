@@ -59,6 +59,10 @@
 		</Unit>
 		<Unit filename="domain/gpio/repository/gpio_port/port.h" />
 		<Unit filename="domain/gpio/service/gpio.h" />
+		<Unit filename="domain/pin/service/pin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="domain/pin/service/pin.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
