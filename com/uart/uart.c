@@ -52,6 +52,18 @@ void uart_println (char *str)
     uart_print("\r\n");
 }
 
+uint8_t uart_is_received (void)
+{
+    uint8_t result = ( UCSR0A & (1 << RXC0) ) ;
+
+    return result;
+}
+
+uint8_t uart_get_received_data (void)
+{
+    return UDR0;
+}
+
 int __uart_putchar (char ch, FILE *stream)
 {
     uart_transmit(ch);
